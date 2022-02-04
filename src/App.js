@@ -1,9 +1,5 @@
 import React from "react";
-import axios from "axios";
-
-// import store from "./redux/store";
-import { useDispatch } from "react-redux";
-import { setPizzas } from "./redux/action/pizzas";
+// import axios from "axios";
 
 import PropTypes from "prop-types";
 import { Routes, Route } from "react-router-dom";
@@ -11,14 +7,14 @@ import { Routes, Route } from "react-router-dom";
 import { Header, PizzaBlock } from "./components";
 import { Home, Cart } from "./pages";
 
-function App() {
-  const dispatch = useDispatch();
+// axios.get("http://localhost:3001/pizzas").then(({ data }) => {
+//   dispatch(setPizzas(data));
+// });
 
-  React.useEffect(() => {
-    axios.get("http://localhost:3000/db.json").then(({ data }) => {
-      dispatch(setPizzas(data.pizzas));
-    });
-  }, []);
+// axios.get("http://localhost:3000/db.json").then(({ data }) => {
+//   dispatch(setPizzas(data.pizzas));
+// })
+function App() {
   return (
     <div className="wrapper">
       <Header />
