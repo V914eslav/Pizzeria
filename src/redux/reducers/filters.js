@@ -1,5 +1,5 @@
 const initialsState = {
-  category: 0,
+  category: null,
   sotrBy: "popular",
 };
 const filters = (state = initialsState, action) => {
