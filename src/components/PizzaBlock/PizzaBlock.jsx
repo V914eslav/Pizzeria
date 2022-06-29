@@ -1,31 +1,48 @@
 import React, { useState } from "react";
 
-const PizzaBlock = () => {
+const PizzaBlock = ({ imageUrl, name, types, sizes, price }) => {
   const [pizzaCount, setPizzaCount] = useState(0);
+  const [activeType, setActiveType] = useState(0);
+  const [activeSize, setActiveSize] = useState(0);
   const incCount = () => {
     setPizzaCount(pizzaCount + 1);
   };
+
+  const typeNames = ["тонкое", "традиционное"];
   return (
     <div className="pizza-block">
-      <img
-        className="pizza-block__image"
-        src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-        alt="Pizza"
-      />
-      <h4 className="pizza-block__title">Чизбургер-пицца</h4>
+      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+      <h4 className="pizza-block__title">{name}</h4>
       <div className="pizza-block__selector">
         <ul>
-          <li>тонкое</li>
-          <li>традиционное</li>
+          {types.map((type, index) => {
+            return (
+              <li
+                onClick={() => setActiveType(index)}
+                className={activeType === index ? "active" : ""}
+                key={type}
+              >
+                {typeNames[type]}
+              </li>
+            );
+          })}
         </ul>
         <ul>
-          <li>26 см.</li>
-          <li>30 см.</li>
-          <li>40 см.</li>
+          {sizes.map((size, index) => {
+            return (
+              <li
+                onClick={() => setActiveSize(index)}
+                className={activeSize === index ? "active" : ""}
+                key={index}
+              >
+                {size} см.
+              </li>
+            );
+          })}
         </ul>
       </div>
       <div className="pizza-block__bottom">
-        <div className="pizza-block__price">от 395 ₽</div>
+        <div className="pizza-block__price">от {price} ₽</div>
         <button
           className="button button--outline button--add"
           onClick={incCount}
