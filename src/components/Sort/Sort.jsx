@@ -1,6 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Sort = () => {
+  const [togglePopup, setTogglePopup] = useState(false);
+  const [titlePopup, setTitlePopup] = useState("популярности");
+  const [rotateLabel, setRotateLabel] = useState(false);
+  const list = ["популярности", "цене", "алфавиту"];
+
+  const changePopup = (title) => {
+    setTitlePopup(title);
+    setTogglePopup(!togglePopup);
+    setRotateLabel(!rotateLabel);
+  };
   return (
     <div className="sort">
       <div className="sort__label">
@@ -16,16 +26,27 @@ const Sort = () => {
             fill="#2C2C2C"
           />
         </svg>
+
         <b>Сортировка по:</b>
-        <span>популярности</span>
+        <span onClick={() => setTogglePopup(!togglePopup)}>{titlePopup}</span>
       </div>
-      <div className="sort__popup">
-        <ul>
-          <li>популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
-        </ul>
-      </div>
+      {togglePopup ? (
+        <div className="sort__popup">
+          <ul>
+            {list.map((listItem) => {
+              return (
+                <li
+                  key={listItem}
+                  onClick={() => changePopup(listItem)}
+                  className={titlePopup === listItem ? "active" : ""}
+                >
+                  {listItem}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ) : null}
     </div>
   );
 };
