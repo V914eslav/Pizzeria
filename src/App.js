@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import Header from "./components/Header/Header";
 import Categories from "./components/Categories/Categories";
 import Sort from "./components/Sort/Sort";
-import PizzaBlock from "./components/PizzaBlock/PizzaBlock";
+import PizzaBlock from "./components/PizzaBlock";
+import Skeleton from "./components/PizzaBlock/Skeleton";
 
 // import objWithPizzas from "./assets/pizzas.json";
 
