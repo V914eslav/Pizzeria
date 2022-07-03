@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 
-const Sort = () => {
+const Sort = ({ sortType, setSortType }) => {
   const [togglePopup, setTogglePopup] = useState(false);
-  const [titlePopup, setTitlePopup] = useState("популярности");
   const [rotateLabel, setRotateLabel] = useState(false);
-  const list = ["популярности", "цене", "алфавиту"];
+  const list = [
+    { name: "популярности", sortProperty: "rating" },
+    { name: "цене", sortProperty: "price" },
+    { name: "алфавиту", sortProperty: "althabet" },
+  ];
 
   const changePopup = (title) => {
-    setTitlePopup(title);
+    setSortType(title);
     setTogglePopup(!togglePopup);
     setRotateLabel(!rotateLabel);
   };
@@ -45,20 +48,22 @@ const Sort = () => {
 
         <span onClick={() => setTogglePopup(!togglePopup)}>
           <b>Сортировка по:</b>
-          {titlePopup}
+          {sortType.name}
         </span>
       </div>
       {togglePopup ? (
         <div className="sort__popup">
           <ul>
-            {list.map((listItem) => {
+            {list.map((obj) => {
               return (
                 <li
-                  key={listItem}
-                  onClick={() => changePopup(listItem)}
-                  className={titlePopup === listItem ? "active" : ""}
+                  key={obj.name}
+                  onClick={() => changePopup(obj)}
+                  className={
+                    sortType.sortProperty === obj.sortProperty ? "active" : ""
+                  }
                 >
-                  {listItem}
+                  {obj.name}
                 </li>
               );
             })}
