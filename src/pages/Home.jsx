@@ -5,8 +5,10 @@ import Sort from "../components/Sort/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
+import { SearchContext } from "../App";
 
-const Home = ({ searchValue }) => {
+const Home = () => {
+  const { searchValue } =React.useContext(SearchContext)
   const [pizzas, setPizzas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [categoryId, setCategryId] = useState(0);
@@ -38,7 +40,7 @@ const Home = ({ searchValue }) => {
     setCategryId(index);
   };
 
-  const onChangePage = () => {};
+  
   // const handlePageClick = (event) => {
   //   const newOffset = (event.selected * itemsPerPage) % items.length;
   //   console.log(
