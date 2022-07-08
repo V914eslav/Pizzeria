@@ -6,12 +6,15 @@ import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
 import { SearchContext } from "../App";
+import { useSelector } from "react-redux";
 
 const Home = () => {
-  const { searchValue } =React.useContext(SearchContext)
+  const categoryId = useSelector((state) => state.filter.categoryId);
+
+  const { searchValue } = React.useContext(SearchContext);
   const [pizzas, setPizzas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [categoryId, setCategryId] = useState(0);
+  // const [categoryId, setCategoryId] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortType, setSortType] = useState({
     name: "популярности",
@@ -36,11 +39,10 @@ const Home = () => {
     window.scrollTo(0, 0);
   }, [categoryId, sortType, searchValue, currentPage]);
 
-  const onClickCategory = (index) => {
-    setCategryId(index);
+  const onClickCategory = (id) => {
+    console.log(id);
   };
 
-  
   // const handlePageClick = (event) => {
   //   const newOffset = (event.selected * itemsPerPage) % items.length;
   //   console.log(
@@ -52,10 +54,7 @@ const Home = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories
-          categoryId={categoryId}
-          onClickCategory={(index) => onClickCategory(index)}
-        />
+        <Categories categoryId={categoryId} onClickCategory={onClickCategory} />
         <Sort sortType={sortType} setSortType={(obj) => setSortType(obj)} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
