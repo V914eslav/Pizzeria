@@ -14,22 +14,17 @@ import { SearchContext } from "../App";
 const Home = () => {
   const categoryId = useSelector((state) => state.filter.categoryId);
   const dispatch = useDispatch();
+  const sortType = useSelector((state) => state.filter.sort.sortProperty);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
   };
-  console.log("categoryId", categoryId);
 
   const { searchValue } = useContext(SearchContext);
 
   const [pizzas, setPizzas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  // const [categoryId, setCategoryId] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortType, setSortType] = useState({
-    name: "популярности",
-    sortProperty: "rating",
-  });
 
   useEffect(() => {
     setIsLoading(true);
@@ -56,7 +51,7 @@ const Home = () => {
           categoryId={categoryId}
           onChangeCategory={onChangeCategory}
         />
-        <Sort sortType={sortType} setSortType={(obj) => setSortType(obj)} />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">

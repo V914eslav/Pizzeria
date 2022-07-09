@@ -1,16 +1,23 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { setSort } from "../../redux/slices/filterSlice";
 
-const Sort = ({ sortType, setSortType }) => {
+const list = [
+  { name: "популярности", sortProperty: "rating" },
+  { name: "цене", sortProperty: "price" },
+  { name: "алфавиту", sortProperty: "althabet" },
+];
+
+const Sort = () => {
+  const sort = useSelector((state) => state.filter.sort);
+  const dispatch = useDispatch();
+
   const [togglePopup, setTogglePopup] = useState(false);
   const [rotateLabel, setRotateLabel] = useState(false);
-  const list = [
-    { name: "популярности", sortProperty: "rating" },
-    { name: "цене", sortProperty: "price" },
-    { name: "алфавиту", sortProperty: "althabet" },
-  ];
 
-  const changePopup = (title) => {
-    setSortType(title);
+  const changePopup = (obj) => {
+    dispatch(setSort(obj));
     setTogglePopup(!togglePopup);
     setRotateLabel(!rotateLabel);
   };
@@ -48,7 +55,7 @@ const Sort = ({ sortType, setSortType }) => {
 
         <span onClick={() => setTogglePopup(!togglePopup)}>
           <b>Сортировка по:</b>
-          {sortType.name}
+          {sort.name}
         </span>
       </div>
       {togglePopup ? (
@@ -60,7 +67,7 @@ const Sort = ({ sortType, setSortType }) => {
                   key={obj.name}
                   onClick={() => changePopup(obj)}
                   className={
-                    sortType.sortProperty === obj.sortProperty ? "active" : ""
+                    sort.sortProperty === obj.sortProperty ? "active" : ""
                   }
                 >
                   {obj.name}
