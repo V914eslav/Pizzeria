@@ -3,6 +3,8 @@ import React, { useEffect, useState, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setCategoryId } from "../redux/slices/filterSlice";
 
+import axios from "axios";
+
 import Categories from "../components/Categories/Categories";
 import Sort from "../components/Sort/Sort";
 import PizzaBlock from "../components/PizzaBlock";
@@ -28,17 +30,16 @@ const Home = () => {
 
   useEffect(() => {
     setIsLoading(true);
-
     const search = searchValue ? `&search=${searchValue}` : "";
 
-    fetch(
-      `https://62c15821eff7f7856f0c8821.mockapi.io/pizzas?&page=${currentPage}&limit=4&${
-        categoryId > 0 ? `category=${categoryId}` : ""
-      }&sortBy=${sortType.sortProperty}&order=desc${search}`
-    )
-      .then((res) => res.json())
-      .then((arr) => {
-        setPizzas(arr);
+    axios
+      .get(
+        `https://62c15821eff7f7856f0c8821.mockapi.io/pizzas?&page=${currentPage}&limit=4&${
+          categoryId > 0 ? `category=${categoryId}` : ""
+        }&sortBy=${sortType.sortProperty}&order=desc${search}`
+      )
+      .then((response) => {
+        setPizzas(response.data);
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
