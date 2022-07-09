@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, createContext } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Header from "./components/Header/Header";
@@ -6,15 +6,13 @@ import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import NotFound from "./pages/NotFound";
 
-// import { useSelector, useDispatch } from "react-redux";
-// import { decrement, increment } from "./redux/slices/counterReducer ";
-
-// import objWithPizzas from "./assets/pizzas.json";
-
 import "./scss/app.scss";
-export const SearchContext = React.createContext("");
+
+export const SearchContext = createContext("");
 
 function App() {
+
+
   const [searchValue, setSearchValue] = useState("");
 
   return (

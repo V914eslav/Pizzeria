@@ -1,17 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+
+import { useSelector, useDispatch } from "react-redux";
+import { setCategoryId } from "../redux/slices/filterSlice";
 
 import Categories from "../components/Categories/Categories";
 import Sort from "../components/Sort/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
+
 import { SearchContext } from "../App";
-import { useSelector } from "react-redux";
 
 const Home = () => {
   const categoryId = useSelector((state) => state.filter.categoryId);
+  const dispatch = useDispatch();
 
-  const { searchValue } = React.useContext(SearchContext);
+  const onChangeCategory = (id) => {
+    dispatch(setCategoryId(id));
+  };
+  console.log("categoryId", categoryId);
+
+  const { searchValue } = useContext(SearchContext);
+
   const [pizzas, setPizzas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   // const [categoryId, setCategoryId] = useState(0);
@@ -39,22 +49,13 @@ const Home = () => {
     window.scrollTo(0, 0);
   }, [categoryId, sortType, searchValue, currentPage]);
 
-  const onClickCategory = (id) => {
-    console.log(id);
-  };
-
-  // const handlePageClick = (event) => {
-  //   const newOffset = (event.selected * itemsPerPage) % items.length;
-  //   console.log(
-  //     `User requested page number ${event.selected}, which is offset ${newOffset}`
-  //   );
-  //   setItemOffset(newOffset);
-  // };
-
   return (
     <div className="container">
       <div className="content__top">
-        <Categories categoryId={categoryId} onClickCategory={onClickCategory} />
+        <Categories
+          categoryId={categoryId}
+          onChangeCategory={onChangeCategory}
+        />
         <Sort sortType={sortType} setSortType={(obj) => setSortType(obj)} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
@@ -69,13 +70,3 @@ const Home = () => {
 };
 
 export default Home;
-// pizzas
-//               .filter((obj) => {
-//                 if (
-//                   obj.name.toLowerCase().includes(searchValue.toLowerCase())
-//                 ) {
-//                   return true;
-//                 }
-//                 return false;
-//               })
-//               .map((obj) => <PizzaBlock key={obj.name} {...obj} />)}
