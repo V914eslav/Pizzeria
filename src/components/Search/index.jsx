@@ -1,5 +1,4 @@
-import React, { useContext, useCallback, useState } from "react";
-import { useRef } from "react";
+import React, { useContext, useCallback, useState, useRef } from "react";
 import { SearchContext } from "../../App";
 import debounce from "lodash.debounce";
 
