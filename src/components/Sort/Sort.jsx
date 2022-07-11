@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { setSort } from "../../redux/slices/filterSlice";
@@ -13,6 +14,8 @@ const Sort = () => {
   const sort = useSelector((state) => state.filter.sort);
   const dispatch = useDispatch();
 
+  const sortRef = useRef();
+
   const [togglePopup, setTogglePopup] = useState(false);
   const [rotateLabel, setRotateLabel] = useState(false);
 
@@ -21,8 +24,17 @@ const Sort = () => {
     setTogglePopup(!togglePopup);
     setRotateLabel(!rotateLabel);
   };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.path.includes(sortRef.current)) {
+        setTogglePopup(false);
+      }
+    };
+    document.body.addEventListener("click", handleClickOutside);
+    return () => document.body.removeEventListener("click", handleClickOutside);
+  }, []);
   return (
-    <div className="sort">
+    <div className="sort" ref={sortRef}>
       <div className="sort__label">
         {togglePopup ? (
           <svg
