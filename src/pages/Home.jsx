@@ -93,7 +93,6 @@ const Home = () => {
     }
     isSearch.current = false;
   }, [categoryId, sortProperty, searchValue, currentPage]);
-
   return (
     <div className="container">
       <div className="content__top">
