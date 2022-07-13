@@ -42,20 +42,37 @@ const Home = () => {
   const onChangePage = (number) => {
     dispatch(setCurrentPage(number));
   };
-  const fetchPizzas = () => {
+  const fetchPizzas = async () => {
     setIsLoading(true);
     const search = searchValue ? `&search=${searchValue}` : "";
 
-    axios
-      .get(
+    // await axios
+    //   .get(
+    //     `https://62c15821eff7f7856f0c8821.mockapi.io/pizzas?&page=${currentPage}&limit=4&${
+    //       categoryId > 0 ? `category=${categoryId}` : ""
+    //     }&sortBy=${sortProperty.sortProperty}&order=desc${search}`
+    //   )
+    //   .then((response) => {
+    //     setPizzas(response.data);
+    //     setIsLoading(false);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     setIsLoading(false);
+    //   });
+
+    try {
+      const res = await axios(
         `https://62c15821eff7f7856f0c8821.mockapi.io/pizzas?&page=${currentPage}&limit=4&${
           categoryId > 0 ? `category=${categoryId}` : ""
         }&sortBy=${sortProperty.sortProperty}&order=desc${search}`
-      )
-      .then((response) => {
-        setPizzas(response.data);
-        setIsLoading(false);
-      });
+      );
+      setPizzas(res.data);
+    } catch (error) {
+      console.log("ERROR", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
   useEffect(() => {
     if (isMounted.current) {
