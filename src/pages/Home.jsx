@@ -19,12 +19,15 @@ import Pagination from "../components/Pagination";
 import { sortList } from "../components/Sort/Sort";
 
 import { SearchContext } from "../App";
+import { setItems } from "../redux/slices/pizzasSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
+
+  const pizzas = useSelector((state) => state.pizzas.items);
 
   const categoryId = useSelector((state) => state.filter.categoryId);
   const sortProperty = useSelector((state) => state.filter.sort.sortProperty);
@@ -36,9 +39,7 @@ const Home = () => {
 
   const { searchValue } = useContext(SearchContext);
 
-  const [pizzas, setPizzas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  // const [currentPage, setCurrentPage] = useState(1);
   const onChangePage = (number) => {
     dispatch(setCurrentPage(number));
   };
@@ -46,20 +47,6 @@ const Home = () => {
     setIsLoading(true);
     const search = searchValue ? `&search=${searchValue}` : "";
 
-    // await axios
-    //   .get(
-    //     `https://62c15821eff7f7856f0c8821.mockapi.io/pizzas?&page=${currentPage}&limit=4&${
-    //       categoryId > 0 ? `category=${categoryId}` : ""
-    //     }&sortBy=${sortProperty.sortProperty}&order=desc${search}`
-    //   )
-    //   .then((response) => {
-    //     setPizzas(response.data);
-    //     setIsLoading(false);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     setIsLoading(false);
-    //   });
 
     try {
       const res = await axios(
@@ -67,7 +54,7 @@ const Home = () => {
           categoryId > 0 ? `category=${categoryId}` : ""
         }&sortBy=${sortProperty.sortProperty}&order=desc${search}`
       );
-      setPizzas(res.data);
+      dispatch(setItems(res.data));
     } catch (error) {
       console.log("ERROR", error);
     } finally {

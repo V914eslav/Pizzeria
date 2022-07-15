@@ -10,7 +10,7 @@ const pizzasSlice = createSlice({
   reducers: {
    
     setItems: (state,action) => {
-     state.items= action.payload.items
+     state.items = action.payload
     },
   },
 });
