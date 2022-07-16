@@ -1,13 +1,14 @@
 import React, { useContext, useCallback, useState, useRef } from "react";
-import { SearchContext } from "../../App";
+import { useDispatch } from "react-redux";
+
 import debounce from "lodash.debounce";
 
 import styles from "./Search.module.scss";
+import { setSearchValue } from "../../redux/slices/filterSlice";
 
 const Search = () => {
+  const dispatch = useDispatch();
   const [localValue, setLocalValue] = useState("");
-
-  const { searchValue, setSearchValue } = useContext(SearchContext);
 
   const inputRef = useRef();
 
@@ -19,7 +20,7 @@ const Search = () => {
   );
 
   const onClickClear = () => {
-    setSearchValue("");
+    dispatch(setSearchValue(localValue));
     setLocalValue("");
     inputRef.current.focus();
   };
@@ -70,7 +71,7 @@ const Search = () => {
         className={styles.input}
         placeholder="Посик пиццы ..."
       />
-      {searchValue && (
+      {localValue && (
         <svg
           onClick={() => onClickClear()}
           className={styles.clearIcon}

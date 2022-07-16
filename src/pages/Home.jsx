@@ -26,7 +26,7 @@ const Home = () => {
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
-  const {items, status} = useSelector((state) => state.pizzas);
+  const { items, status } = useSelector((state) => state.pizzas);
 
   const categoryId = useSelector((state) => state.filter.categoryId);
   const sortProperty = useSelector((state) => state.filter.sort.sortProperty);
@@ -43,14 +43,14 @@ const Home = () => {
   };
   const getPizzas = async () => {
     const search = searchValue ? `&search=${searchValue}` : "";
-
-
-      dispatch(fetchPizzas({
+    dispatch(
+      fetchPizzas({
         search,
         sortProperty,
         categoryId,
-        currentPage}));
-    
+        currentPage,
+      })
+    );
   };
   useEffect(() => {
     if (isMounted.current) {
@@ -83,7 +83,7 @@ const Home = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-      getPizzas();
+    getPizzas();
   }, []);
   return (
     <div className="container">
@@ -95,18 +95,21 @@ const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      {status === "error"? (
+      {status === "error" ? (
         <div className="content__error-info">
           <h2>Произошла ошибка</h2>
-          <p>К сожалению, не удалось получить пиццы.
-            Попробуйте повторить попытку позже.</p>
-        </div>) :
+          <p>
+            К сожалению, не удалось получить пиццы. Попробуйте повторить попытку
+            позже.
+          </p>
+        </div>
+      ) : (
         <div className="content__items">
-        {status === "loading" 
-        ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
-          : items.map((obj) => <PizzaBlock key={obj.name} {...obj} />)}
-      </div>
-      }
+          {status === "loading"
+            ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
+            : items.map((obj) => <PizzaBlock key={obj.name} {...obj} />)}
+        </div>
+      )}
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );

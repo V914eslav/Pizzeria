@@ -11,8 +11,6 @@ import "./scss/app.scss";
 export const SearchContext = createContext("");
 
 function App() {
-
-
   const [searchValue, setSearchValue] = useState("");
 
   return (
