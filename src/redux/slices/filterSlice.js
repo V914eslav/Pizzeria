@@ -42,5 +42,6 @@ export const {
   setCurrentPage,
   setFilters,
   setSearchValue,
+  searchValue,
 } = filterSlice.actions;
 export default filterSlice.reducer;

@@ -5,6 +5,7 @@ import {
   setCategoryId,
   setCurrentPage,
   setFilters,
+  searchValue,
 } from "../redux/slices/filterSlice";
 import { fetchPizzas } from "../redux/slices/pizzasSlice";
 
@@ -17,8 +18,6 @@ import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
 import { sortList } from "../components/Sort/Sort";
-
-import { SearchContext } from "../App";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -35,8 +34,6 @@ const Home = () => {
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
   };
-
-  const { searchValue } = useContext(SearchContext);
 
   const onChangePage = (number) => {
     dispatch(setCurrentPage(number));
