@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -10,7 +10,7 @@ import {
 import { fetchPizzas } from "../redux/slices/pizzasSlice";
 
 import qs from "qs";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Categories from "../components/Categories/Categories";
 import Sort from "../components/Sort/Sort";
@@ -104,7 +104,11 @@ const Home = () => {
         <div className="content__items">
           {status === "loading"
             ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
-            : items.map((obj) => <PizzaBlock key={obj.name} {...obj} />)}
+            : items.map((obj) => (
+                <Link key={obj.name + obj.id} to={`/pizza/${obj.id}`}>
+                  <PizzaBlock key={obj.name} {...obj} />
+                </Link>
+              ))}
         </div>
       )}
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
