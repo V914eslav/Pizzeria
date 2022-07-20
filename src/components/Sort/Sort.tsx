@@ -2,30 +2,38 @@ import React, { useRef, useState } from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { setSort } from "../../redux/slices/filterSlice";
+import { selectSort, setSort } from "../../redux/slices/filterSlice";
 
-export const sortList = [
+type ObjectSortListItem = {
+  name: string;
+  sortProperty: string;
+};
+export const sortList: ObjectSortListItem[] = [
   { name: "популярности", sortProperty: "rating" },
   { name: "цене", sortProperty: "price" },
   { name: "алфавиту", sortProperty: "althabet" },
 ];
 
 const Sort = () => {
-  const sort = useSelector((state) => state.filter.sort);
-  const dispatch = useDispatch();
-
-  const sortRef = useRef();
-
   const [togglePopup, setTogglePopup] = useState(false);
   const [rotateLabel, setRotateLabel] = useState(false);
 
-  const changePopup = (obj) => {
+  const sort = useSelector(selectSort);
+  console.log("sort", sort);
+  console.log("sort", sort.name);
+  console.log("selectSort", selectSort);
+
+  const dispatch = useDispatch();
+
+  const sortRef = useRef<HTMLDivElement>(null);
+
+  const changePopup = (obj: ObjectSortListItem) => {
     dispatch(setSort(obj));
     setTogglePopup(!togglePopup);
     setRotateLabel(!rotateLabel);
   };
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: any) => {
       if (!event.path.includes(sortRef.current)) {
         setTogglePopup(false);
       }
@@ -33,6 +41,7 @@ const Sort = () => {
     document.body.addEventListener("click", handleClickOutside);
     return () => document.body.removeEventListener("click", handleClickOutside);
   }, []);
+
   return (
     <div className="sort" ref={sortRef}>
       <div className="sort__label">

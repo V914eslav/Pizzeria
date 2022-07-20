@@ -4,9 +4,26 @@ import {
   addItem,
   decrementItemPizzas,
   removeItem,
-} from "../redux/slices/cartSlice";
+} from "../../redux/slices/cartSlice";
 
-const CartItem = ({ id, imageUrl, title, type, price, count, size }) => {
+type CartItemProps = {
+  id: string;
+  imageUrl: string;
+  title: string;
+  type: string;
+  price: number;
+  count: number;
+  size: number;
+};
+const CartItem: React.FC<CartItemProps> = ({
+  id,
+  imageUrl,
+  title,
+  type,
+  price,
+  count,
+  size,
+}) => {
   const dispatch = useDispatch();
   const onClickIncrementPizzas = () => {
     dispatch(addItem({ id }));
