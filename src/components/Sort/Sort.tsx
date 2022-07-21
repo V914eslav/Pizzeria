@@ -8,6 +8,7 @@ type ObjectSortListItem = {
   name: string;
   sortProperty: string;
 };
+
 export const sortList: ObjectSortListItem[] = [
   { name: "популярности", sortProperty: "rating" },
   { name: "цене", sortProperty: "price" },
@@ -19,9 +20,6 @@ const Sort = () => {
   const [rotateLabel, setRotateLabel] = useState(false);
 
   const sort = useSelector(selectSort);
-  console.log("sort", sort);
-  console.log("sort", sort.name);
-  console.log("selectSort", selectSort);
 
   const dispatch = useDispatch();
 
@@ -33,8 +31,11 @@ const Sort = () => {
     setRotateLabel(!rotateLabel);
   };
   useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      if (!event.path.includes(sortRef.current)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      const _event = event as MouseEvent & {
+        path: Node[];
+      };
+      if (sortRef.current && !_event.path.includes(sortRef.current)) {
         setTogglePopup(false);
       }
     };

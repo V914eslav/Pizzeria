@@ -13,6 +13,7 @@ const Cart: React.FC = () => {
     (sum: number, item: any) => sum + item.count,
     0
   );
+  console.log(cartItem);
 
   const onClickClearCart = () => {
     if (window.confirm("Очистить корзину?")) dispatch(clearItems());

@@ -17,14 +17,15 @@ const Search = () => {
     []
   );
 
-  const onClickClear = () => {
+  const onClickClear = (event: React.MouseEvent<SVGSVGElement>) => {
+    console.log(event);
     dispatch(setSearchValue(""));
     setLocalValue("");
     if (inputRef.current) {
       inputRef.current.focus();
     }
   };
-  const onChangeInput = (event: any) => {
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLocalValue(event.target.value);
     updateSearchValue(event.target.value);
   };
@@ -73,7 +74,7 @@ const Search = () => {
       />
       {localValue && (
         <svg
-          onClick={() => onClickClear()}
+          onClick={onClickClear}
           className={styles.clearIcon}
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"

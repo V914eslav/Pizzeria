@@ -8,6 +8,8 @@ const initialState = {
     name: "популярности",
     sortProperty: "rating",
   },
+  togglePopup: false,
+  rotateLabel: false,
 };
 
 const filterSlice = createSlice({

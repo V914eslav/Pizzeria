@@ -23,11 +23,10 @@ import { sortList } from "../components/Sort/Sort";
 const Home: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isSearch = useRef(false);
   const isMounted = useRef(false);
 
   const { items, status } = useSelector(selectPizzaData);
-  const { categoryId, sortProperty, currentPage } = useSelector(selectFilter);
+  const { categoryId, sort, currentPage } = useSelector(selectFilter);
 
   const onChangeCategory = (idx: number) => {
     dispatch(setCategoryId(idx));
@@ -43,7 +42,7 @@ const Home: React.FC = () => {
       // @ts-ignore
       fetchPizzas({
         search,
-        sortProperty,
+        sortProperty: sort.sortProperty,
         categoryId,
         currentPage,
       })
@@ -53,31 +52,31 @@ const Home: React.FC = () => {
   useEffect(() => {
     if (isMounted.current) {
       const queryString = qs.stringify({
-        sortProperty,
+        sortProperty: sort.sortProperty,
         categoryId,
         currentPage,
       });
       navigate(`?${queryString}`);
     }
     isMounted.current = true;
-  }, [categoryId, sortProperty, currentPage]);
+  }, [categoryId, sort.sortProperty, currentPage]);
 
   useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
 
-      const sort = sortList.find(
+      const sortObj = sortList.find(
         (obj) => obj.sortProperty === params.sortProperty
       );
 
       dispatch(
         setFilters({
           ...params,
-          sort,
+          sort: sortObj || sortList[0],
         })
       );
-      isSearch.current = true;
     }
+    isMounted.current = true;
   }, []);
 
   useEffect(() => {
