@@ -1,10 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import {
-  addItem,
-  decrementItemPizzas,
-  removeItem,
-} from "../../redux/slices/cartSlice";
+import { addItem, minusItem, removeItem } from "../../redux/slices/cartSlice";
 
 type CartItemProps = {
   id: string;
@@ -29,7 +25,7 @@ const CartItem: React.FC<CartItemProps> = ({
     dispatch(addItem({ id }));
   };
   const onClickDecrementPizzas = () => {
-    dispatch(decrementItemPizzas(id));
+    dispatch(minusItem(id));
   };
   const onClickItemPizzas = () => {
     if (window.confirm("Ты действитульно хочешь удалить товар?"))
