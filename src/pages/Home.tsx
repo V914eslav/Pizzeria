@@ -3,14 +3,6 @@ import qs from "qs";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import {
-  Categories,
-  Sort,
-  PizzaBlock,
-  Skeleton,
-  Pagination,
-} from "../components";
-
 import { selectFilter } from "../redux/slices/filterSlice";
 import { selectPizzaData } from "../redux/slices/pizzasSlice";
 import {
@@ -19,11 +11,16 @@ import {
   setFilters,
 } from "../redux/slices/filterSlice";
 import { fetchPizzas } from "../redux/slices/pizzasSlice";
-import { SearchPizzaParams } from "../redux/slices/pizzasSlice";
+import PizzaBlock from "../components/PizzaBlock";
+import Skeleton from "../components/PizzaBlock/Skeleton";
+import Categories from "../components/Categories/Categories";
+import Sort from "../components/Sort/Sort";
+import Pagination from "../components/Pagination";
+import { useAppDispatch } from "../redux/store";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isMounted = React.useRef(false);
 
   const { items, status } = useSelector(selectPizzaData);
