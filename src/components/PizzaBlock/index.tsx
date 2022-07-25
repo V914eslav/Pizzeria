@@ -1,39 +1,38 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import { Link } from "react-router-dom";
-import {
-  addItem,
-  CartItem,
-  selectCartItemById,
-} from "../../redux/slices/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCartItemById } from "../../redux/slices/cartSlice";
+import { CartItem } from "../../redux/slices/cartSlice";
+import { addItem } from "../../redux/slices/cartSlice";
+
+const typeNames = ["тонкое", "традиционное"];
 
 type PizzaBlockProps = {
   id: string;
-  imageUrl: string;
   name: string;
-  types: number[];
-  sizes: number[];
   price: string;
+  imageUrl: string;
+  sizes: number[];
+  types: number[];
   rating: number;
 };
 
-const typeNames = ["тонкое", "традиционное"];
 const PizzaBlock: React.FC<PizzaBlockProps> = ({
   id,
-  imageUrl,
   name,
-  types,
-  sizes,
   price,
+  imageUrl,
+  sizes,
+  types,
 }) => {
   const dispatch = useDispatch();
   const cartItem = useSelector(selectCartItemById(id));
+  const [activeType, setActiveType] = React.useState(0);
+  const [activeSize, setActiveSize] = React.useState(0);
 
   const addedCount = cartItem ? cartItem.count : 0;
-  const [activeType, setActiveType] = useState(0);
-  const [activeSize, setActiveSize] = useState(0);
 
-  const onClickAddPizzaItem = () => {
+  const onClickAdd = () => {
     const item: CartItem = {
       id,
       name,
@@ -49,44 +48,39 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({
   return (
     <div className="pizza-block-wrapper">
       <div className="pizza-block">
-        <Link key={name + id} to={`/pizza/${id}`}>
+        <Link key={id} to={`/pizza/${id}`}>
           <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
           <h4 className="pizza-block__title">{name}</h4>
         </Link>
-
         <div className="pizza-block__selector">
           <ul>
-            {types.map((type: number, index: number) => {
-              return (
-                <li
-                  onClick={() => setActiveType(index)}
-                  className={activeType === index ? "active" : ""}
-                  key={type}
-                >
-                  {typeNames[type]}
-                </li>
-              );
-            })}
+            {types.map((typeId) => (
+              <li
+                key={typeId}
+                onClick={() => setActiveType(typeId)}
+                className={activeType === typeId ? "active" : ""}
+              >
+                {typeNames[typeId]}
+              </li>
+            ))}
           </ul>
           <ul>
-            {sizes.map((size, index) => {
-              return (
-                <li
-                  onClick={() => setActiveSize(index)}
-                  className={activeSize === index ? "active" : ""}
-                  key={index}
-                >
-                  {size} см.
-                </li>
-              );
-            })}
+            {sizes.map((size, i) => (
+              <li
+                key={size}
+                onClick={() => setActiveSize(i)}
+                className={activeSize === i ? "active" : ""}
+              >
+                {size} см.
+              </li>
+            ))}
           </ul>
         </div>
         <div className="pizza-block__bottom">
           <div className="pizza-block__price">от {price} ₽</div>
           <button
+            onClick={onClickAdd}
             className="button button--outline button--add"
-            onClick={onClickAddPizzaItem}
           >
             <svg
               width="12"
@@ -101,12 +95,11 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({
               />
             </svg>
             <span>Добавить</span>
-            {/* {addedCount > 0 && <i>{cartItem.count}</i>} */}
+            {addedCount > 0 && <i>{addedCount}</i>}
           </button>
         </div>
       </div>
     </div>
   );
 };
-
 export default PizzaBlock;
