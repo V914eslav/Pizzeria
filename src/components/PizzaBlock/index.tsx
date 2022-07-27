@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectCartItemById } from "../../redux/slices/cartSlice";
-import { CartItem } from "../../redux/slices/cartSlice";
-import { addItem } from "../../redux/slices/cartSlice";
+import { selectCartItemById } from "../../redux/cart/slice";
+import { CartItem } from "../../redux/cart/types";
+import { addItem } from "../../redux/cart/slice";
 
 const typeNames = ["тонкое", "традиционное"];
 
@@ -53,7 +53,7 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({
           <h4 className="pizza-block__title">{name}</h4>
         </Link>
         <div className="pizza-block__selector">
-          <ul>
+          {/* <ul>
             {types.map((typeId) => (
               <li
                 key={typeId}
@@ -63,8 +63,8 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({
                 {typeNames[typeId]}
               </li>
             ))}
-          </ul>
-          <ul>
+          </ul> */}
+          {/* <ul>
             {sizes.map((size, i) => (
               <li
                 key={size}
@@ -74,7 +74,7 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({
                 {size} см.
               </li>
             ))}
-          </ul>
+          </ul> */}
         </div>
         <div className="pizza-block__bottom">
           <div className="pizza-block__price">от {price} ₽</div>
