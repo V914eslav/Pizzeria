@@ -14,9 +14,7 @@ import Pagination from "../components/Pagination";
 import { useAppDispatch } from "../redux/store";
 
 const Home: React.FC = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const isMounted = React.useRef(false);
 
   const { items, status } = useSelector(selectPizzaData);
   const { categoryId, sort, currentPage, searchValue } =

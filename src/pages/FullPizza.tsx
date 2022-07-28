@@ -1,20 +1,23 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const FullPizza: React.FC = () => {
+  const navigate = useNavigate();
+
   const [pizza, setPizza] = useState<{
     name: string;
     imageUrl: string;
     price: number;
   }>();
   const { id } = useParams();
-  const navigate = useNavigate();
+
   useEffect(() => {
     async function fetchPizza() {
       try {
         const { data } = await axios.get(
-          `https://62beacdfbe8ba3a10d58e9eb.mockapi.io/pizzas/` + id
+          `https://62beacdfbe8ba3a10d58e9eb.mockapi.io/pizzas/${id}`
         );
         setPizza(data);
       } catch (error) {
@@ -24,7 +27,6 @@ const FullPizza: React.FC = () => {
     }
 
     fetchPizza();
-    console.log(pizza);
   }, []);
 
   if (!pizza) {
@@ -35,6 +37,11 @@ const FullPizza: React.FC = () => {
       <div>{pizza.name}</div>
       <img src={pizza.imageUrl} alt="pizza" />
       <h4>{pizza.price} р.</h4>
+      <Link to="/">
+        <button className="button button--outline button--add">
+          <span>Назад</span>
+        </button>
+      </Link>
     </div>
   );
 };
